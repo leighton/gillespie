@@ -8,6 +8,8 @@ import cython
 from sympy.utilities.autowrap import ufuncify
 from sympy.printing.theanocode import theano_function
 
+import theano
+
 #def create_c_propensity_function(x, parm, prop):
 #  [(c_name, c_code), (h_name, c_header)] = codegen(("propensity", np.array(prop)), "C", "test", header=False, empty=False)
 #  print c_code
@@ -43,10 +45,10 @@ def integrate(x, T, prop, parm, ics, tmax, method="direct", propensity_function=
     raise Error("Transition and propensity vectors must be of same size")
 
   #time!
-  t = 0
+  t = 0 #np.asarray([0])
 
   #convert sparse state space to dense state space
-  xv = dict([(xi, ics.get(xi, 0)) for xi in x])
+  xv = dict([(xi, np.array(ics.get(xi, 0))) for xi in x])
 
   #yield zeroth realisation
   #TODO: replace with sparse vector?
@@ -82,7 +84,7 @@ def integrate(x, T, prop, parm, ics, tmax, method="direct", propensity_function=
     t+=tau
 
     rxn = np.random.choice(trans_n, 1, p=list(prob))[0]
-
+    
     for state, delta in T[rxn].items():
       xv[state] = xv[state] + delta
       model_map[state] = model_map[state] + delta
@@ -90,4 +92,9 @@ def integrate(x, T, prop, parm, ics, tmax, method="direct", propensity_function=
     yield [t]+[xv[xi] for xi in x]
 
   raise StopIteration()
+
+
+def _direct_vectorized(x, T, prop, parm, ics, tmax, propensity_function=py_propensity_function):
+
+  pass
 

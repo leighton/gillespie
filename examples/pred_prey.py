@@ -3,8 +3,8 @@
 from sympy import symbols
 import numpy as np
 import matplotlib.pyplot as plt
-from stochastic import integrate
-from stochastic import cython_propensity_function
+from gillespie import integrate
+from gillespie import cython_propensity_function
 
 X, Y, Z = symbols('X Y Z', integer=True)
 B, l, mu, nu = symbols('β λ μ ν', real=True)
