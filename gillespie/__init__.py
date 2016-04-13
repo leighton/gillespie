@@ -94,7 +94,3 @@ def integrate(x, T, prop, parm, ics, tmax, method="direct", propensity_function=
   raise StopIteration()
 
 
-def _direct_vectorized(x, T, prop, parm, ics, tmax, propensity_function=py_propensity_function):
-
-  pass
-
