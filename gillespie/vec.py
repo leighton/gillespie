@@ -57,6 +57,6 @@ def function(*argv, **kwargs):
 
     fn = direct_method
     if 'method' in kwargs:
-        fn = fn_map[kwargs['method']]
-
+        fn = _fn_map[kwargs['method']]
+    kwargs.pop("method", None)
     return fn(*argv, **kwargs)
